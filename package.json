@@ -1,8 +1,8 @@
 {
-  "name": "typescript-action",
+  "name": "wayback-machine-query-action",
   "version": "0.0.0",
   "private": true,
-  "description": "TypeScript template action",
+  "description": "Wayback Machine Query Action",
   "main": "lib/main.js",
   "scripts": {
     "build": "tsc",
@@ -15,17 +15,18 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/actions/typescript-action.git"
+    "url": "git+https://github.com/flcdrg/wayback-machine-query-action.git"
   },
   "keywords": [
     "actions",
     "node",
     "setup"
   ],
-  "author": "",
+  "author": "David Gardiner",
   "license": "MIT",
   "dependencies": {
-    "@actions/core": "^1.6.0"
+    "@actions/core": "^1.6.0",
+    "axios": "^0.26.1"
   },
   "devDependencies": {
     "@types/node": "^16.10.5",

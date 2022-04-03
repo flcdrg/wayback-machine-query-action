@@ -1,11 +1,15 @@
-name: 'Your name here'
-description: 'Provide a description here'
-author: 'Your name or organization here'
+name: 'Wayback Machine Query'
+description: 'Query archive.org''s Wayback machine to get URL of archived web pages'
+author: 'David Gardiner'
 inputs:
-  milliseconds: # change this
+  input:
     required: true
-    description: 'input description here'
-    default: 'default value if applicable'
+    description: 'File to read JSON data from'
+    default: './lychee/links.json'
+  output:
+    required: true
+    description: 'File to write results to'
+    default: './wayback/replacements.json'
 runs:
   using: 'node16'
   main: 'dist/index.js'

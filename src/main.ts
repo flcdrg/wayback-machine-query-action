@@ -1,19 +1,47 @@
 import * as core from '@actions/core'
-import {wait} from './wait'
+import * as fs from 'fs'
+import { findWaybackUrls, parseData } from './findWaybackUrls'
 
 async function run(): Promise<void> {
   try {
-    const ms: string = core.getInput('milliseconds')
-    core.debug(`Waiting ${ms} milliseconds ...`) // debug is only output if you set the secret `ACTIONS_STEP_DEBUG` to true
+    const inputFile: string = core.getInput('input', { required: true});
+    const outputFile: string = core.getInput('output');
 
-    core.debug(new Date().toTimeString())
-    await wait(parseInt(ms, 10))
-    core.debug(new Date().toTimeString())
+    const data = readFromFile(inputFile);
+    
+    if (!data) {
+      return
+    }
 
+    const parsed = parseData(data);
+    const replacements = await findWaybackUrls(parsed)
+
+    const replacementsString = JSON.stringify(replacements);
+
+    core.info(replacementsString);
+
+    fs.writeFile(outputFile, replacementsString, err => {
+      core.error(err?.message ?? 'Error writing output file');
+    })
+    
     core.setOutput('time', new Date().toTimeString())
   } catch (error) {
     if (error instanceof Error) core.setFailed(error.message)
   }
 }
 
-run()
+run();
+
+function readFromFile(file: string) {
+  let r: string | undefined;
+  fs.readFile(file, 'utf8' , (err, data) => {
+    if (err) {
+      core.setFailed(err)
+      return;
+    }
+    r = data;
+  });
+
+  return r;
+}
+
