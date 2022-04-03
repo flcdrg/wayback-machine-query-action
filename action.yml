@@ -1,6 +1,9 @@
 name: 'Wayback Machine Query'
 description: 'Query archive.org''s Wayback machine to get URL of archived web pages'
 author: 'David Gardiner'
+branding:
+  icon: archive
+  color: blue
 inputs:
   input:
     required: true

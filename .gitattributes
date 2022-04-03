@@ -1,1 +1,3 @@
-dist/** -diff linguist-generated=true 
+dist/** -diff linguist-generated=true
+*.js linguist-language=TypeScript
+* -text
