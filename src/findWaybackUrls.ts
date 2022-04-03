@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { stringify } from 'querystring';
 
 interface IUrlStatusDictionary {
     [index: string]: Array<
@@ -32,7 +31,8 @@ export async function findWaybackUrls(data: ILycheeData) {
     if (Object.prototype.hasOwnProperty.call(data.fail_map, key)) {
       const element = data.fail_map[key];
 
-      // look up date in key
+      // look up date in key. 
+      // TODO Make this configurable
       const regex = /_posts\/(\d+)\/(\d+)\-(\d+)\-(\d+)\-/;
       const matches = regex.exec(key);
 
