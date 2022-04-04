@@ -1,5 +1,5 @@
 import * as core from '@actions/core';
-import * as fs from 'fs';
+import { promises as fs } from 'fs';
 import { findWaybackUrls, parseData } from './findWaybackUrls';
 
 async function run(): Promise<void> {
@@ -12,7 +12,7 @@ async function run(): Promise<void> {
     const regex: RegExp | undefined = expr ? new RegExp(expr) : undefined;
 
     core.info('About to load file');
-    const data = readFromFile(inputFile);
+    const data = await fs.readFile(inputFile, 'utf8');
 
     if (!data) {
       core.warning('Did not load file');
@@ -27,9 +27,7 @@ async function run(): Promise<void> {
     core.info(replacementsString);
 
     if (outputFile) {
-      fs.writeFile(outputFile, replacementsString, err => {
-        core.error(err?.message ?? 'Error writing output file');
-      });
+      await fs.writeFile(outputFile, replacementsString);
     }
 
     core.setOutput('replacements', replacementsString);
@@ -39,16 +37,3 @@ async function run(): Promise<void> {
 }
 
 run();
-
-function readFromFile(file: string): string | undefined {
-  let r: string | undefined;
-  fs.readFile(file, 'utf8', (err, data) => {
-    if (err) {
-      core.setFailed(err);
-      return;
-    }
-    r = data;
-  });
-
-  return r;
-}

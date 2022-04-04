@@ -114,7 +114,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const core = __importStar(__nccwpck_require__(2186));
-const fs = __importStar(__nccwpck_require__(7147));
+const fs_1 = __nccwpck_require__(7147);
 const findWaybackUrls_1 = __nccwpck_require__(1629);
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
@@ -125,7 +125,7 @@ function run() {
             const expr = core.getInput('timestamp-regex');
             const regex = expr ? new RegExp(expr) : undefined;
             core.info('About to load file');
-            const data = readFromFile(inputFile);
+            const data = yield fs_1.promises.readFile(inputFile, 'utf8');
             if (!data) {
                 core.warning('Did not load file');
                 return;
@@ -135,10 +135,7 @@ function run() {
             const replacementsString = JSON.stringify(replacements);
             core.info(replacementsString);
             if (outputFile) {
-                fs.writeFile(outputFile, replacementsString, err => {
-                    var _a;
-                    core.error((_a = err === null || err === void 0 ? void 0 : err.message) !== null && _a !== void 0 ? _a : 'Error writing output file');
-                });
+                yield fs_1.promises.writeFile(outputFile, replacementsString);
             }
             core.setOutput('replacements', replacementsString);
         }
@@ -149,17 +146,6 @@ function run() {
     });
 }
 run();
-function readFromFile(file) {
-    let r;
-    fs.readFile(file, 'utf8', (err, data) => {
-        if (err) {
-            core.setFailed(err);
-            return;
-        }
-        r = data;
-    });
-    return r;
-}
 
 
 /***/ }),
