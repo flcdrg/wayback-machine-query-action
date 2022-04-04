@@ -1,4 +1,5 @@
 import axios from 'axios';
+import * as core from '@actions/core';
 
 interface IUrlStatusDictionary {
   [index: string]: {
@@ -77,11 +78,13 @@ export async function findWaybackUrls(
             };
           } = res.data;
 
-          if (waybackData.archived_snapshots) {
+          if (waybackData.archived_snapshots.closest) {
             results.push({
               find: waybackData.url,
               replace: waybackData.archived_snapshots.closest.url
             });
+          } else {
+            core.warning(`Failed to find snapshot for ${waybackData.url}`);
           }
         }
       }
