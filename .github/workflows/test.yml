@@ -25,4 +25,4 @@ jobs:
           source-path: __tests__/data.json
           timestamp-regex: '_posts\/(\d+)\/(?<year>\d+)-(?<month>\d+)-(?<day>\d+)-'
 
-      - run: echo ${{ wayback.outputs.replacements }}
+      - run: echo ${{ steps.wayback.outputs.replacements }}
