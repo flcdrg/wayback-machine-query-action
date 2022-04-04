@@ -22,7 +22,8 @@ export type IReplacements = {
 }[];
 
 export async function findWaybackUrls(
-  data: ILycheeData
+  data: ILycheeData,
+  regex?: RegExp
 ): Promise<IReplacements> {
   const failedMap = data.fail_map;
 
@@ -33,13 +34,14 @@ export async function findWaybackUrls(
       const element = data.fail_map[key];
 
       // look up date in key.
-      // TODO Make this configurable
-      const regex = /_posts\/(\d+)\/(\d+)-(\d+)-(\d+)-/;
-      const matches = regex.exec(key);
-
       let timestamp: string | undefined;
-      if (matches && matches.length === 5) {
-        timestamp = matches[2] + matches[3] + matches[4];
+
+      if (regex) {
+        const matches = regex.exec(key);
+
+        if (matches && matches.length === 5) {
+          timestamp = matches[2] + matches[3] + matches[4];
+        }
       }
 
       for (const failedItem of element) {

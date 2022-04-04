@@ -7,6 +7,9 @@ async function run(): Promise<void> {
     const inputFile: string = core.getInput('source-path', { required: true });
     const outputFile: string = core.getInput('replacements-path');
 
+    const expr = core.getInput('timestamp-regex');
+    const regex: RegExp | undefined = expr ? new RegExp(expr) : undefined;
+
     const data = readFromFile(inputFile);
 
     if (!data) {
@@ -14,7 +17,7 @@ async function run(): Promise<void> {
     }
 
     const parsed = parseData(data);
-    const replacements = await findWaybackUrls(parsed);
+    const replacements = await findWaybackUrls(parsed, regex);
 
     const replacementsString = JSON.stringify(replacements);
 

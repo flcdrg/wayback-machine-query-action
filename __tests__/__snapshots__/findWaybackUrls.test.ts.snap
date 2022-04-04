@@ -4,6 +4,23 @@ exports[`finds urls 1`] = `
 Array [
   Object {
     "find": "http://www.microsoft.com/windowsserver2003/technologies/networking/ipsec/default.mspx#EGAA",
+    "replace": "http://web.archive.org/web/20170514221808/http://www.microsoft.com:80/windowsserver2003/technologies/networking/ipsec/default.mspx",
+  },
+  Object {
+    "find": "http://www.sqlserver.org.au/",
+    "replace": "http://web.archive.org/web/20180823174410/http://www.sqlserver.org.au:80/",
+  },
+  Object {
+    "find": "http://www.microsoft.com/resources/documentation/windowsnt/4/server/reskit/en-us/reskt4u4/rku4list.mspx?mfr=true",
+    "replace": "http://web.archive.org/web/20150621050452/http://www.microsoft.com:80/resources/documentation/windowsnt/4/server/reskit/en-us/reskt4u4/rku4list.mspx?mfr=true",
+  },
+]
+`;
+
+exports[`finds urls with timestamp 1`] = `
+Array [
+  Object {
+    "find": "http://www.microsoft.com/windowsserver2003/technologies/networking/ipsec/default.mspx#EGAA",
     "replace": "http://web.archive.org/web/20050404133316/http://www.microsoft.com:80/windowsserver2003/technologies/networking/ipsec/default.mspx",
   },
   Object {
