@@ -10,7 +10,7 @@ The input file format is assumed to follow that produced by [lychee](https://git
 
 If the `replacements-path` input property is set, then a file is written in JSON format with pairs of the original URL and a corresponding Wayback Machine URL. You could use this data to do a find/replace in the source document(s).
 
-If a timestamp is supplied to the Wayback Machine API, then the closest snapshot to that date is returned.
+If a timestamp is supplied to the Wayback Machine API, then the closest snapshot to that date is returned. The timestamp is obtained via a regular expression that is applied to the input URL. The regular expression must at least return a named group `year`, and optionally `month` and `day`. See the tests for an example.
 
 ## Motivation
 
