@@ -112,9 +112,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const core = __importStar(__nccwpck_require__(2186));
 const fs_1 = __nccwpck_require__(7147);
+const path_1 = __importDefault(__nccwpck_require__(1017));
 const findWaybackUrls_1 = __nccwpck_require__(1629);
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
@@ -135,6 +139,7 @@ function run() {
             const replacementsString = JSON.stringify(replacements);
             core.info(replacementsString);
             if (outputFile) {
+                yield fs_1.promises.mkdir(path_1.default.dirname(outputFile));
                 yield fs_1.promises.writeFile(outputFile, replacementsString);
             }
             core.setOutput('replacements', replacementsString);

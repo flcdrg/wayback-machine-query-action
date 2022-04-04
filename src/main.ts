@@ -1,5 +1,6 @@
 import * as core from '@actions/core';
 import { promises as fs } from 'fs';
+import path from 'path';
 import { findWaybackUrls, parseData } from './findWaybackUrls';
 
 async function run(): Promise<void> {
@@ -27,6 +28,7 @@ async function run(): Promise<void> {
     core.info(replacementsString);
 
     if (outputFile) {
+      await fs.mkdir(path.dirname(outputFile));
       await fs.writeFile(outputFile, replacementsString);
     }
 
