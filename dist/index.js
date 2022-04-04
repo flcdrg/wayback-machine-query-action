@@ -128,10 +128,10 @@ function run() {
             const outputFile = core.getInput('replacements-path');
             const expr = core.getInput('timestamp-regex');
             const regex = expr ? new RegExp(expr) : undefined;
-            core.info('About to load file');
+            core.info(`Reading from ${inputFile}`);
             const data = yield fs_1.promises.readFile(inputFile, 'utf8');
             if (!data) {
-                core.warning('Did not load file');
+                core.error('Unable to read from file');
                 return;
             }
             const parsed = (0, findWaybackUrls_1.parseData)(data);
@@ -139,6 +139,7 @@ function run() {
             const replacementsString = JSON.stringify(replacements);
             core.info(replacementsString);
             if (outputFile) {
+                core.info(`Writing to ${outputFile}`);
                 yield fs_1.promises.mkdir(path_1.default.dirname(outputFile));
                 yield fs_1.promises.writeFile(outputFile, replacementsString);
             }

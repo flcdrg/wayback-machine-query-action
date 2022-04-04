@@ -12,11 +12,11 @@ async function run(): Promise<void> {
     const expr = core.getInput('timestamp-regex');
     const regex: RegExp | undefined = expr ? new RegExp(expr) : undefined;
 
-    core.info('About to load file');
+    core.info(`Reading from ${inputFile}`);
     const data = await fs.readFile(inputFile, 'utf8');
 
     if (!data) {
-      core.warning('Did not load file');
+      core.error('Unable to read from file');
       return;
     }
 
@@ -28,6 +28,8 @@ async function run(): Promise<void> {
     core.info(replacementsString);
 
     if (outputFile) {
+      core.info(`Writing to ${outputFile}`);
+
       await fs.mkdir(path.dirname(outputFile));
       await fs.writeFile(outputFile, replacementsString);
     }
