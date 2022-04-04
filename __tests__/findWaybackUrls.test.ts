@@ -33,8 +33,7 @@ test('finds urls', async () => {
 });
 
 test('finds urls with timestamp', async () => {
-  const regex = /_posts\/(\d+)\/(\d+)-(\d+)-(\d+)-/;
-
+  const regex = /_posts\/(\d+)\/(?<year>\d+)-(?<month>\d+)-(?<day>\d+)-/;
   const result = await findWaybackUrls(data, regex);
 
   expect(result).toMatchSnapshot();

@@ -39,8 +39,17 @@ export async function findWaybackUrls(
       if (regex) {
         const matches = regex.exec(key);
 
-        if (matches && matches.length === 5) {
-          timestamp = matches[2] + matches[3] + matches[4];
+        if (matches && matches.groups && matches.groups.year) {
+          const groups = matches.groups;
+          timestamp = groups.year;
+
+          if (groups.month) {
+            timestamp += groups.month;
+          }
+
+          if (groups.day) {
+            timestamp += groups.day;
+          }
         }
       }
 
