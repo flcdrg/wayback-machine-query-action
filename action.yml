@@ -1,18 +1,25 @@
 name: 'Wayback Machine Query'
-description: 'Query archive.org''s Wayback machine to get URL of archived web pages'
+description: 'Query archive.org''s Wayback machine to get URLs of archived web pages'
 author: 'David Gardiner'
 branding:
   icon: archive
   color: blue
 inputs:
-  input:
+  source-path:
     required: true
-    description: 'File to read JSON data from'
+    description: 'Path to file to read JSON data from'
     default: './lychee/links.json'
-  output:
-    required: true
-    description: 'File to write results to'
+  replacements-path:
+    required: false
+    description: '(Optional) Path to file to write replacement data to'
     default: './wayback/replacements.json'
+  timestamp-regex:
+    required: false
+    description: (Optional) Regular expression to extract a timestamp from the input URL
+outputs:
+  replacements:
+    description: JSON array of replacement data
 runs:
   using: 'node16'
   main: 'dist/index.js'
+
