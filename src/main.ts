@@ -1,18 +1,22 @@
 import * as core from '@actions/core';
-import * as fs from 'fs';
+import { promises as fs } from 'fs';
+import path from 'path';
 import { findWaybackUrls, parseData } from './findWaybackUrls';
 
 async function run(): Promise<void> {
   try {
+    core.info('starting');
     const inputFile: string = core.getInput('source-path', { required: true });
     const outputFile: string = core.getInput('replacements-path');
 
     const expr = core.getInput('timestamp-regex');
     const regex: RegExp | undefined = expr ? new RegExp(expr) : undefined;
 
-    const data = readFromFile(inputFile);
+    core.info(`Reading from ${inputFile}`);
+    const data = await fs.readFile(inputFile, 'utf8');
 
     if (!data) {
+      core.error('Unable to read from file');
       return;
     }
 
@@ -24,9 +28,10 @@ async function run(): Promise<void> {
     core.info(replacementsString);
 
     if (outputFile) {
-      fs.writeFile(outputFile, replacementsString, err => {
-        core.error(err?.message ?? 'Error writing output file');
-      });
+      core.info(`Writing to ${outputFile}`);
+
+      await fs.mkdir(path.dirname(outputFile));
+      await fs.writeFile(outputFile, replacementsString);
     }
 
     core.setOutput('replacements', replacementsString);
@@ -36,16 +41,3 @@ async function run(): Promise<void> {
 }
 
 run();
-
-function readFromFile(file: string): string | undefined {
-  let r: string | undefined;
-  fs.readFile(file, 'utf8', (err, data) => {
-    if (err) {
-      core.setFailed(err);
-      return;
-    }
-    r = data;
-  });
-
-  return r;
-}

@@ -112,19 +112,26 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const core = __importStar(__nccwpck_require__(2186));
-const fs = __importStar(__nccwpck_require__(7147));
+const fs_1 = __nccwpck_require__(7147);
+const path_1 = __importDefault(__nccwpck_require__(1017));
 const findWaybackUrls_1 = __nccwpck_require__(1629);
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
+            core.info('starting');
             const inputFile = core.getInput('source-path', { required: true });
             const outputFile = core.getInput('replacements-path');
             const expr = core.getInput('timestamp-regex');
             const regex = expr ? new RegExp(expr) : undefined;
-            const data = readFromFile(inputFile);
+            core.info(`Reading from ${inputFile}`);
+            const data = yield fs_1.promises.readFile(inputFile, 'utf8');
             if (!data) {
+                core.error('Unable to read from file');
                 return;
             }
             const parsed = (0, findWaybackUrls_1.parseData)(data);
@@ -132,10 +139,9 @@ function run() {
             const replacementsString = JSON.stringify(replacements);
             core.info(replacementsString);
             if (outputFile) {
-                fs.writeFile(outputFile, replacementsString, err => {
-                    var _a;
-                    core.error((_a = err === null || err === void 0 ? void 0 : err.message) !== null && _a !== void 0 ? _a : 'Error writing output file');
-                });
+                core.info(`Writing to ${outputFile}`);
+                yield fs_1.promises.mkdir(path_1.default.dirname(outputFile));
+                yield fs_1.promises.writeFile(outputFile, replacementsString);
             }
             core.setOutput('replacements', replacementsString);
         }
@@ -146,17 +152,6 @@ function run() {
     });
 }
 run();
-function readFromFile(file) {
-    let r;
-    fs.readFile(file, 'utf8', (err, data) => {
-        if (err) {
-            core.setFailed(err);
-            return;
-        }
-        r = data;
-    });
-    return r;
-}
 
 
 /***/ }),
