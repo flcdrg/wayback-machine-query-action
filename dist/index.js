@@ -26,7 +26,7 @@ function parseData(data) {
     return parsed;
 }
 exports.parseData = parseData;
-function findWaybackUrls(data) {
+function findWaybackUrls(data, regex) {
     return __awaiter(this, void 0, void 0, function* () {
         const failedMap = data.fail_map;
         const results = [];
@@ -34,12 +34,12 @@ function findWaybackUrls(data) {
             if (Object.prototype.hasOwnProperty.call(data.fail_map, key)) {
                 const element = data.fail_map[key];
                 // look up date in key.
-                // TODO Make this configurable
-                const regex = /_posts\/(\d+)\/(\d+)-(\d+)-(\d+)-/;
-                const matches = regex.exec(key);
                 let timestamp;
-                if (matches && matches.length === 5) {
-                    timestamp = matches[2] + matches[3] + matches[4];
+                if (regex) {
+                    const matches = regex.exec(key);
+                    if (matches && matches.length === 5) {
+                        timestamp = matches[2] + matches[3] + matches[4];
+                    }
                 }
                 for (const failedItem of element) {
                     if (failedItem.status === 'Timeout') {
@@ -114,12 +114,14 @@ function run() {
         try {
             const inputFile = core.getInput('source-path', { required: true });
             const outputFile = core.getInput('replacements-path');
+            const expr = core.getInput('timestamp-regex');
+            const regex = expr ? new RegExp(expr) : undefined;
             const data = readFromFile(inputFile);
             if (!data) {
                 return;
             }
             const parsed = (0, findWaybackUrls_1.parseData)(data);
-            const replacements = yield (0, findWaybackUrls_1.findWaybackUrls)(parsed);
+            const replacements = yield (0, findWaybackUrls_1.findWaybackUrls)(parsed, regex);
             const replacementsString = JSON.stringify(replacements);
             core.info(replacementsString);
             if (outputFile) {
