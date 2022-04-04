@@ -1,4 +1,5 @@
 dist/** -diff linguist-generated=true
 *.js linguist-language=TypeScript text=lf
 *.ts text=lf
+*.json text=lf
 * -text
