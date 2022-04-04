@@ -4,8 +4,8 @@ import { findWaybackUrls, parseData } from './findWaybackUrls';
 
 async function run(): Promise<void> {
   try {
-    const inputFile: string = core.getInput('input', { required: true });
-    const outputFile: string = core.getInput('output');
+    const inputFile: string = core.getInput('source-path', { required: true });
+    const outputFile: string = core.getInput('replacements-path');
 
     const data = readFromFile(inputFile);
 
@@ -20,11 +20,13 @@ async function run(): Promise<void> {
 
     core.info(replacementsString);
 
-    fs.writeFile(outputFile, replacementsString, err => {
-      core.error(err?.message ?? 'Error writing output file');
-    });
+    if (outputFile) {
+      fs.writeFile(outputFile, replacementsString, err => {
+        core.error(err?.message ?? 'Error writing output file');
+      });
+    }
 
-    core.setOutput('time', new Date().toTimeString());
+    core.setOutput('replacements', replacementsString);
   } catch (error) {
     if (error instanceof Error) core.setFailed(error.message);
   }

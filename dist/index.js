@@ -112,8 +112,8 @@ const findWaybackUrls_1 = __nccwpck_require__(1629);
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            const inputFile = core.getInput('input', { required: true });
-            const outputFile = core.getInput('output');
+            const inputFile = core.getInput('source-path', { required: true });
+            const outputFile = core.getInput('replacements-path');
             const data = readFromFile(inputFile);
             if (!data) {
                 return;
@@ -122,11 +122,13 @@ function run() {
             const replacements = yield (0, findWaybackUrls_1.findWaybackUrls)(parsed);
             const replacementsString = JSON.stringify(replacements);
             core.info(replacementsString);
-            fs.writeFile(outputFile, replacementsString, err => {
-                var _a;
-                core.error((_a = err === null || err === void 0 ? void 0 : err.message) !== null && _a !== void 0 ? _a : 'Error writing output file');
-            });
-            core.setOutput('time', new Date().toTimeString());
+            if (outputFile) {
+                fs.writeFile(outputFile, replacementsString, err => {
+                    var _a;
+                    core.error((_a = err === null || err === void 0 ? void 0 : err.message) !== null && _a !== void 0 ? _a : 'Error writing output file');
+                });
+            }
+            core.setOutput('replacements', replacementsString);
         }
         catch (error) {
             if (error instanceof Error)
