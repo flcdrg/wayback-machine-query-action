@@ -4,15 +4,18 @@ import { findWaybackUrls, parseData } from './findWaybackUrls';
 
 async function run(): Promise<void> {
   try {
+    core.info('starting');
     const inputFile: string = core.getInput('source-path', { required: true });
     const outputFile: string = core.getInput('replacements-path');
 
     const expr = core.getInput('timestamp-regex');
     const regex: RegExp | undefined = expr ? new RegExp(expr) : undefined;
 
+    core.info('About to load file');
     const data = readFromFile(inputFile);
 
     if (!data) {
+      core.warning('Did not load file');
       return;
     }
 

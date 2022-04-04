@@ -119,12 +119,15 @@ const findWaybackUrls_1 = __nccwpck_require__(1629);
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
+            core.info('starting');
             const inputFile = core.getInput('source-path', { required: true });
             const outputFile = core.getInput('replacements-path');
             const expr = core.getInput('timestamp-regex');
             const regex = expr ? new RegExp(expr) : undefined;
+            core.info('About to load file');
             const data = readFromFile(inputFile);
             if (!data) {
+                core.warning('Did not load file');
                 return;
             }
             const parsed = (0, findWaybackUrls_1.parseData)(data);
