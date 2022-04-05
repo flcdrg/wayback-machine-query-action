@@ -18,9 +18,12 @@ export function parseData(data: string): ILycheeData {
 }
 
 export type IReplacements = {
-  find: string;
-  replace: string;
-}[];
+  replacements: {
+    find: string;
+    replace: string;
+  }[];
+  missing: string[];
+};
 
 export async function findWaybackUrls(
   data: ILycheeData,
@@ -28,7 +31,10 @@ export async function findWaybackUrls(
 ): Promise<IReplacements> {
   const failedMap = data.fail_map;
 
-  const results: IReplacements = [];
+  const results: IReplacements = {
+    replacements: [],
+    missing: []
+  };
 
   for (const key in failedMap) {
     if (Object.prototype.hasOwnProperty.call(data.fail_map, key)) {
@@ -79,12 +85,13 @@ export async function findWaybackUrls(
           } = res.data;
 
           if (waybackData.archived_snapshots.closest) {
-            results.push({
+            results.replacements.push({
               find: waybackData.url,
               replace: waybackData.archived_snapshots.closest.url
             });
           } else {
             core.warning(`Failed to find snapshot for ${waybackData.url}`);
+            results.missing.push(waybackData.url);
           }
         }
       }
