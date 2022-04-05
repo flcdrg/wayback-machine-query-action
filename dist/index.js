@@ -53,7 +53,10 @@ exports.parseData = parseData;
 function findWaybackUrls(data, regex) {
     return __awaiter(this, void 0, void 0, function* () {
         const failedMap = data.fail_map;
-        const results = [];
+        const results = {
+            replacements: [],
+            missing: []
+        };
         for (const key in failedMap) {
             if (Object.prototype.hasOwnProperty.call(data.fail_map, key)) {
                 const element = data.fail_map[key];
@@ -82,13 +85,14 @@ function findWaybackUrls(data, regex) {
                         const res = yield axios_1.default.get(waybackUrl.toString());
                         const waybackData = res.data;
                         if (waybackData.archived_snapshots.closest) {
-                            results.push({
+                            results.replacements.push({
                                 find: waybackData.url,
                                 replace: waybackData.archived_snapshots.closest.url
                             });
                         }
                         else {
                             core.warning(`Failed to find snapshot for ${waybackData.url}`);
+                            results.missing.push(waybackData.url);
                         }
                     }
                 }

@@ -19,6 +19,12 @@
           "url": "http://www.microsoft.com/resources/documentation/windowsnt/4/server/reskit/en-us/reskt4u4/rku4list.mspx?mfr=true",
           "status": "Timeout"
         }
+      ],
+      "./_posts/2009/2009-08-19-podcasts-i-listening-too.md": [
+        {
+          "url": "http://www.sqlsnapshots.com/SQLSnapshotsMP3Feed.xml",
+          "status": "Timeout"
+        }
       ]
     }
   }
