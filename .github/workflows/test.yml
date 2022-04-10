@@ -11,8 +11,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0 # full history for GitVersioning
       - run: |
-          npm install
+          npm ci
+          npx nbgv cloud --all-vars
+
+      - name: gitversion
+        id: gitversion
+        run: |
+          echo "set-output name=SemVer2::$NBGV_SemVer2"
+          echo "::set-output name=SemVer2::$NBGV_SemVer2"
+
       - run: |
           npm run all
   test: # make sure the action works on a clean machine without building
@@ -25,4 +35,20 @@ jobs:
           source-path: ./__tests__/data.json
           timestamp-regex: '_posts\/(\d+)\/(?<year>\d+)-(?<month>\d+)-(?<day>\d+)-'
 
-      - run: echo ${{ steps.wayback.outputs.replacements }}
+  update_release_draft:
+    name: Update release draft
+    runs-on: ubuntu-latest
+    needs: [build]
+    env:
+      SemVer2: ${{ needs.build.outputs.SemVer2 }}
+
+    if: github.ref == 'refs/heads/main' # Running this job only for master branch
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: release-drafter/release-drafter@v5
+        id: create_release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          version: ${{ needs.build.outputs.SemVer2 }}
