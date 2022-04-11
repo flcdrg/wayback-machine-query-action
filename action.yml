@@ -19,6 +19,8 @@ inputs:
 outputs:
   replacements:
     description: JSON array of replacement data
+  missing:
+    description: JSON array of URLs that are missing
 runs:
   using: 'node16'
   main: 'dist/index.js'

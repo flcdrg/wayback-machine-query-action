@@ -168,13 +168,14 @@ function run() {
             const parsed = (0, findWaybackUrls_1.parseData)(data);
             const replacements = yield (0, findWaybackUrls_1.findWaybackUrls)(parsed, regex);
             const replacementsString = JSON.stringify(replacements);
-            core.info(replacementsString);
+            core.debug(replacementsString);
             if (outputFile) {
                 core.info(`Writing to ${outputFile}`);
                 yield fs_1.promises.mkdir(path_1.default.dirname(outputFile));
                 yield fs_1.promises.writeFile(outputFile, replacementsString);
             }
-            core.setOutput('replacements', replacementsString);
+            core.setOutput('missing', JSON.stringify(replacements.missing));
+            core.setOutput('replacements', JSON.stringify(replacements.replacements));
         }
         catch (error) {
             if (error instanceof Error)
