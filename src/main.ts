@@ -25,7 +25,7 @@ async function run(): Promise<void> {
 
     const replacementsString = JSON.stringify(replacements);
 
-    core.info(replacementsString);
+    core.debug(replacementsString);
 
     if (outputFile) {
       core.info(`Writing to ${outputFile}`);
@@ -34,7 +34,8 @@ async function run(): Promise<void> {
       await fs.writeFile(outputFile, replacementsString);
     }
 
-    core.setOutput('replacements', replacementsString);
+    core.setOutput('missing', JSON.stringify(replacements.missing));
+    core.setOutput('replacements', JSON.stringify(replacements.replacements));
   } catch (error) {
     if (error instanceof Error) core.setFailed(error.message);
   }
