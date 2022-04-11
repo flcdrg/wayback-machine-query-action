@@ -24,6 +24,10 @@
         {
           "url": "http://www.sqlsnapshots.com/SQLSnapshotsMP3Feed.xml",
           "status": "Timeout"
+        },
+        {
+          "url": "http://www.sqlserver.org.au/",
+          "status": "Timeout"
         }
       ]
     }

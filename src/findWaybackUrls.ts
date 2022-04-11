@@ -85,10 +85,16 @@ export async function findWaybackUrls(
           } = res.data;
 
           if (waybackData.archived_snapshots.closest) {
-            results.replacements.push({
-              find: waybackData.url,
-              replace: waybackData.archived_snapshots.closest.url
-            });
+            if (
+              results.replacements.findIndex(
+                p => p.find === waybackData.url
+              ) === -1
+            ) {
+              results.replacements.push({
+                find: waybackData.url,
+                replace: waybackData.archived_snapshots.closest.url
+              });
+            }
           } else {
             core.warning(`Failed to find snapshot for ${waybackData.url}`);
             results.missing.push(waybackData.url);
