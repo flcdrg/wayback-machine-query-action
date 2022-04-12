@@ -57,6 +57,7 @@ function findWaybackUrls(data, regex) {
             replacements: [],
             missing: []
         };
+        const replacementDictionary = {};
         for (const key in failedMap) {
             if (Object.prototype.hasOwnProperty.call(data.fail_map, key)) {
                 const element = data.fail_map[key];
@@ -85,11 +86,9 @@ function findWaybackUrls(data, regex) {
                         const res = yield axios_1.default.get(waybackUrl.toString());
                         const waybackData = res.data;
                         if (waybackData.archived_snapshots.closest) {
-                            if (results.replacements.findIndex(p => p.find === waybackData.url) === -1) {
-                                results.replacements.push({
-                                    find: waybackData.url,
-                                    replace: waybackData.archived_snapshots.closest.url
-                                });
+                            if (!replacementDictionary.hasOwnProperty(waybackData.url)) {
+                                replacementDictionary[waybackData.url] =
+                                    waybackData.archived_snapshots.closest.url;
                             }
                         }
                         else {
@@ -99,6 +98,13 @@ function findWaybackUrls(data, regex) {
                     }
                 }
             }
+        }
+        const keys = Object.keys(replacementDictionary).sort((a, b) => b.localeCompare(a));
+        for (const k of keys) {
+            results.replacements.push({
+                find: k,
+                replace: replacementDictionary[k]
+            });
         }
         return results;
     });

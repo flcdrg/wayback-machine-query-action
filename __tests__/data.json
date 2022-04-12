@@ -18,6 +18,10 @@
         {
           "url": "http://www.microsoft.com/resources/documentation/windowsnt/4/server/reskit/en-us/reskt4u4/rku4list.mspx?mfr=true",
           "status": "Timeout"
+        },
+        {
+          "url": "http://blog.spencen.com/",
+          "status": "Timeout"
         }
       ],
       "./_posts/2009/2009-08-19-podcasts-i-listening-too.md": [
@@ -27,6 +31,10 @@
         },
         {
           "url": "http://www.sqlserver.org.au/",
+          "status": "Timeout"
+        },
+        {
+          "url": "http://blog.spencen.com/2010/04/06/new-laptop-ndash-sony-z-series.aspx",
           "status": "Timeout"
         }
       ]

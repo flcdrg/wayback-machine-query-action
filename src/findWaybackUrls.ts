@@ -36,6 +36,8 @@ export async function findWaybackUrls(
     missing: []
   };
 
+  const replacementDictionary: { [index: string]: string } = {};
+
   for (const key in failedMap) {
     if (Object.prototype.hasOwnProperty.call(data.fail_map, key)) {
       const element = data.fail_map[key];
@@ -85,15 +87,9 @@ export async function findWaybackUrls(
           } = res.data;
 
           if (waybackData.archived_snapshots.closest) {
-            if (
-              results.replacements.findIndex(
-                p => p.find === waybackData.url
-              ) === -1
-            ) {
-              results.replacements.push({
-                find: waybackData.url,
-                replace: waybackData.archived_snapshots.closest.url
-              });
+            if (!replacementDictionary.hasOwnProperty(waybackData.url)) {
+              replacementDictionary[waybackData.url] =
+                waybackData.archived_snapshots.closest.url;
             }
           } else {
             core.warning(`Failed to find snapshot for ${waybackData.url}`);
@@ -102,6 +98,17 @@ export async function findWaybackUrls(
         }
       }
     }
+  }
+
+  const keys = Object.keys(replacementDictionary).sort((a, b) =>
+    b.localeCompare(a)
+  );
+
+  for (const k of keys) {
+    results.replacements.push({
+      find: k,
+      replace: replacementDictionary[k]
+    });
   }
 
   return results;
