@@ -86,6 +86,7 @@ function findWaybackUrls(data, regex) {
                         if (timestamp) {
                             waybackUrl.searchParams.append('timestamp', timestamp);
                         }
+                        core.info(waybackUrl.toString());
                         const res = yield axios_1.default.get(waybackUrl.toString());
                         const waybackData = res.data;
                         if (waybackData.archived_snapshots.closest) {

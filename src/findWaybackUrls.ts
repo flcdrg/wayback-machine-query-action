@@ -76,6 +76,8 @@ export async function findWaybackUrls(
             waybackUrl.searchParams.append('timestamp', timestamp);
           }
 
+          core.info(waybackUrl.toString());
+
           const res = await axios.get(waybackUrl.toString());
 
           const waybackData: {
