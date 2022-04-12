@@ -63,6 +63,10 @@ export async function findWaybackUrls(
       }
 
       for (const failedItem of element) {
+        if (replacementDictionary.hasOwnProperty(failedItem.url)) {
+          continue;
+        }
+
         if (failedItem.status === 'Timeout') {
           const waybackUrl = new URL('https://archive.org/wayback/available');
 
