@@ -170,7 +170,7 @@ function run() {
             const inputFile = core.getInput('source-path', { required: true });
             const outputFile = core.getInput('replacements-path');
             const expr = core.getInput('timestamp-regex');
-            const regex = expr ? new RegExp(expr) : undefined;
+            const regex = expr.length > 0 ? new RegExp(expr) : undefined;
             core.info(`Reading from ${inputFile}`);
             const data = yield fs_1.promises.readFile(inputFile, 'utf8');
             if (!data) {
