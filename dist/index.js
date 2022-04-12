@@ -77,6 +77,9 @@ function findWaybackUrls(data, regex) {
                     }
                 }
                 for (const failedItem of element) {
+                    if (replacementDictionary.hasOwnProperty(failedItem.url)) {
+                        continue;
+                    }
                     if (failedItem.status === 'Timeout') {
                         const waybackUrl = new URL('https://archive.org/wayback/available');
                         waybackUrl.searchParams.append('url', failedItem.url);
