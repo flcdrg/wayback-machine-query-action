@@ -10,7 +10,8 @@ async function run(): Promise<void> {
     const outputFile: string = core.getInput('replacements-path');
 
     const expr = core.getInput('timestamp-regex');
-    const regex: RegExp | undefined = expr ? new RegExp(expr) : undefined;
+    const regex: RegExp | undefined =
+      expr.length > 0 ? new RegExp(expr) : undefined;
 
     core.info(`Reading from ${inputFile}`);
     const data = await fs.readFile(inputFile, 'utf8');
