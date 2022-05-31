@@ -21,7 +21,7 @@ jobs:
         with:
           token: ${{ secrets.PAT_REPO_FULL }}
           commands: |
-            lockfiles
+            updatedist
           permission: write
           issue-type: pull-request
           dispatch-type: workflow
