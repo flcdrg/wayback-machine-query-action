@@ -33,7 +33,9 @@ exports[`finds urls 1`] = `
 exports[`finds urls with timestamp 1`] = `
 {
   "missing": [
+    "http://blog.spencen.com/",
     "http://www.sqlsnapshots.com/SQLSnapshotsMP3Feed.xml",
+    "http://blog.spencen.com/2010/04/06/new-laptop-ndash-sony-z-series.aspx",
   ],
   "replacements": [
     {
@@ -47,14 +49,6 @@ exports[`finds urls with timestamp 1`] = `
     {
       "find": "http://www.microsoft.com/resources/documentation/windowsnt/4/server/reskit/en-us/reskt4u4/rku4list.mspx?mfr=true",
       "replace": "http://web.archive.org/web/20091206231445/http://www.microsoft.com:80/resources/documentation/windowsnt/4/server/reskit/en-us/reskt4u4/rku4list.mspx?mfr=true",
-    },
-    {
-      "find": "http://blog.spencen.com/2010/04/06/new-laptop-ndash-sony-z-series.aspx",
-      "replace": "http://web.archive.org/web/20100413130912/http://blog.spencen.com:80/2010/04/06/new-laptop-ndash-sony-z-series.aspx",
-    },
-    {
-      "find": "http://blog.spencen.com/",
-      "replace": "http://web.archive.org/web/20090228132238/http://blog.spencen.com:80/",
     },
   ],
 }
