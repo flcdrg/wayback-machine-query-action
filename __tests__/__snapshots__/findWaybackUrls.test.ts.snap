@@ -3,20 +3,28 @@
 exports[`finds urls 1`] = `
 {
   "missing": [
-    "http://www.sqlserver.org.au/",
-    "http://www.microsoft.com/resources/documentation/windowsnt/4/server/reskit/en-us/reskt4u4/rku4list.mspx?mfr=true",
-    "http://blog.spencen.com/",
     "http://www.sqlsnapshots.com/SQLSnapshotsMP3Feed.xml",
-    "http://www.sqlserver.org.au/",
   ],
   "replacements": [
+    {
+      "find": "http://www.sqlserver.org.au/",
+      "replace": "http://web.archive.org/web/20180823174410/http://www.sqlserver.org.au:80/",
+    },
     {
       "find": "http://www.microsoft.com/windowsserver2003/technologies/networking/ipsec/default.mspx#EGAA",
       "replace": "http://web.archive.org/web/20170514221808/http://www.microsoft.com:80/windowsserver2003/technologies/networking/ipsec/default.mspx",
     },
     {
+      "find": "http://www.microsoft.com/resources/documentation/windowsnt/4/server/reskit/en-us/reskt4u4/rku4list.mspx?mfr=true",
+      "replace": "http://web.archive.org/web/20150621050452/http://www.microsoft.com:80/resources/documentation/windowsnt/4/server/reskit/en-us/reskt4u4/rku4list.mspx?mfr=true",
+    },
+    {
       "find": "http://blog.spencen.com/2010/04/06/new-laptop-ndash-sony-z-series.aspx",
       "replace": "http://web.archive.org/web/20140311011355/http://blog.spencen.com:80/2010/04/06/new-laptop-ndash-sony-z-series.aspx",
+    },
+    {
+      "find": "http://blog.spencen.com/",
+      "replace": "http://web.archive.org/web/20201129195822/http://blog.spencen.com/",
     },
   ],
 }
@@ -25,10 +33,7 @@ exports[`finds urls 1`] = `
 exports[`finds urls with timestamp 1`] = `
 {
   "missing": [
-    "http://www.microsoft.com/resources/documentation/windowsnt/4/server/reskit/en-us/reskt4u4/rku4list.mspx?mfr=true",
-    "http://blog.spencen.com/",
     "http://www.sqlsnapshots.com/SQLSnapshotsMP3Feed.xml",
-    "http://blog.spencen.com/2010/04/06/new-laptop-ndash-sony-z-series.aspx",
   ],
   "replacements": [
     {
@@ -38,6 +43,18 @@ exports[`finds urls with timestamp 1`] = `
     {
       "find": "http://www.microsoft.com/windowsserver2003/technologies/networking/ipsec/default.mspx#EGAA",
       "replace": "http://web.archive.org/web/20050404133316/http://www.microsoft.com:80/windowsserver2003/technologies/networking/ipsec/default.mspx",
+    },
+    {
+      "find": "http://www.microsoft.com/resources/documentation/windowsnt/4/server/reskit/en-us/reskt4u4/rku4list.mspx?mfr=true",
+      "replace": "http://web.archive.org/web/20091206231445/http://www.microsoft.com:80/resources/documentation/windowsnt/4/server/reskit/en-us/reskt4u4/rku4list.mspx?mfr=true",
+    },
+    {
+      "find": "http://blog.spencen.com/2010/04/06/new-laptop-ndash-sony-z-series.aspx",
+      "replace": "http://web.archive.org/web/20100413130912/http://blog.spencen.com:80/2010/04/06/new-laptop-ndash-sony-z-series.aspx",
+    },
+    {
+      "find": "http://blog.spencen.com/",
+      "replace": "http://web.archive.org/web/20090228132238/http://blog.spencen.com:80/",
     },
   ],
 }
