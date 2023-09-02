@@ -24,7 +24,7 @@ exports[`finds urls 1`] = `
     },
     {
       "find": "http://blog.spencen.com/",
-      "replace": "http://web.archive.org/web/20201129195822/http://blog.spencen.com/",
+      "replace": "http://web.archive.org/web/20210307213458/http://blog.spencen.com/",
     },
   ],
 }
