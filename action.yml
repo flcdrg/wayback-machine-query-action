@@ -22,6 +22,6 @@ outputs:
   missing:
     description: JSON array of URLs that are missing
 runs:
-  using: 'node16'
+  using: 'node20'
   main: 'dist/index.js'
 
