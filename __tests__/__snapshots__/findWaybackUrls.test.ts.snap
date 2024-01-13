@@ -3,6 +3,7 @@
 exports[`finds urls 1`] = `
 {
   "missing": [
+    "http://www.microsoft.com/resources/documentation/windowsnt/4/server/reskit/en-us/reskt4u4/rku4list.mspx?mfr=true",
     "http://www.sqlsnapshots.com/SQLSnapshotsMP3Feed.xml",
   ],
   "replacements": [
@@ -13,10 +14,6 @@ exports[`finds urls 1`] = `
     {
       "find": "http://www.microsoft.com/windowsserver2003/technologies/networking/ipsec/default.mspx#EGAA",
       "replace": "http://web.archive.org/web/20170514221808/http://www.microsoft.com:80/windowsserver2003/technologies/networking/ipsec/default.mspx",
-    },
-    {
-      "find": "http://www.microsoft.com/resources/documentation/windowsnt/4/server/reskit/en-us/reskt4u4/rku4list.mspx?mfr=true",
-      "replace": "http://web.archive.org/web/20150621050452/http://www.microsoft.com:80/resources/documentation/windowsnt/4/server/reskit/en-us/reskt4u4/rku4list.mspx?mfr=true",
     },
     {
       "find": "http://blog.spencen.com/2010/04/06/new-laptop-ndash-sony-z-series.aspx",
