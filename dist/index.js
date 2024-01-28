@@ -86,8 +86,12 @@ function findWaybackUrls(data, regex) {
                         if (timestamp) {
                             waybackUrl.searchParams.append('timestamp', timestamp);
                         }
-                        core.info(waybackUrl.toString());
-                        const res = yield axios_1.default.get(waybackUrl.toString());
+                        const waybackUrlString = waybackUrl.toString();
+                        core.info(waybackUrlString);
+                        const res = yield axios_1.default.get(waybackUrlString);
+                        // Generate data for mocking
+                        // const hash = crypto.createHash('md5').update(waybackUrlString).digest('hex');
+                        // await fs.writeFile(`__tests__/wayback-${hash}.txt`, `mockData['${waybackUrlString}'] =\n${JSON.stringify(res.data)};`, 'utf-8');
                         const waybackData = res.data;
                         if (waybackData.archived_snapshots.closest) {
                             if (!replacementDictionary.hasOwnProperty(waybackData.url)) {

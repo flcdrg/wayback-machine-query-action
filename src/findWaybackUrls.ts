@@ -1,5 +1,7 @@
 import axios from 'axios';
 import * as core from '@actions/core';
+// import crypto from 'crypto';
+// import { promises as fs } from 'fs';
 
 interface IUrlStatusDictionary {
   [index: string]: {
@@ -10,6 +12,22 @@ interface IUrlStatusDictionary {
 
 export interface ILycheeData {
   fail_map: IUrlStatusDictionary;
+}
+
+export interface IWaybackData {
+  url: string;
+  archived_snapshots: {
+    closest?: {
+      status: string;
+      available: boolean;
+      url: string;
+      timestamp: string;
+    };
+  };
+  /**
+   * @description Timestamp value from the request
+   */
+  timestamp?: string;
 }
 
 export function parseData(data: string): ILycheeData {
@@ -76,21 +94,16 @@ export async function findWaybackUrls(
             waybackUrl.searchParams.append('timestamp', timestamp);
           }
 
-          core.info(waybackUrl.toString());
+          const waybackUrlString = waybackUrl.toString();
+          core.info(waybackUrlString);
 
-          const res = await axios.get(waybackUrl.toString());
+          const res = await axios.get(waybackUrlString);
 
-          const waybackData: {
-            url: string;
-            archived_snapshots: {
-              closest: {
-                status: string;
-                available: boolean;
-                url: string;
-                timestamp: string;
-              };
-            };
-          } = res.data;
+          // Generate data for mocking
+          // const hash = crypto.createHash('md5').update(waybackUrlString).digest('hex');
+          // await fs.writeFile(`__tests__/wayback-${hash}.txt`, `mockData['${waybackUrlString}'] =\n${JSON.stringify(res.data)};`, 'utf-8');
+
+          const waybackData: IWaybackData = res.data;
 
           if (waybackData.archived_snapshots.closest) {
             if (!replacementDictionary.hasOwnProperty(waybackData.url)) {

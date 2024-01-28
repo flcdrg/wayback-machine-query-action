@@ -12,7 +12,7 @@ exports[`finds urls 1`] = `
     },
     {
       "find": "http://www.microsoft.com/windowsserver2003/technologies/networking/ipsec/default.mspx#EGAA",
-      "replace": "http://web.archive.org/web/20170514221808/http://www.microsoft.com:80/windowsserver2003/technologies/networking/ipsec/default.mspx",
+      "replace": "http://web.archive.org/web/20171221142706/http://www.microsoft.com/windowsserver2003/technologies/networking/ipsec/default.mspx",
     },
     {
       "find": "http://www.microsoft.com/resources/documentation/windowsnt/4/server/reskit/en-us/reskt4u4/rku4list.mspx?mfr=true",
@@ -33,12 +33,13 @@ exports[`finds urls 1`] = `
 exports[`finds urls with timestamp 1`] = `
 {
   "missing": [
+    "http://www.sqlserver.org.au/",
     "http://www.sqlsnapshots.com/SQLSnapshotsMP3Feed.xml",
   ],
   "replacements": [
     {
       "find": "http://www.sqlserver.org.au/",
-      "replace": "http://web.archive.org/web/20090217192805/http://www.sqlserver.org.au:80/",
+      "replace": "http://web.archive.org/web/20090913130433/http://www.sqlserver.org.au/",
     },
     {
       "find": "http://www.microsoft.com/windowsserver2003/technologies/networking/ipsec/default.mspx#EGAA",
