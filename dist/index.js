@@ -29,95 +29,83 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.findWaybackUrls = exports.parseData = void 0;
+exports.parseData = parseData;
+exports.findWaybackUrls = findWaybackUrls;
 const axios_1 = __importDefault(__nccwpck_require__(8757));
 const core = __importStar(__nccwpck_require__(2186));
 function parseData(data) {
     const parsed = JSON.parse(data);
     return parsed;
 }
-exports.parseData = parseData;
-function findWaybackUrls(data, regex) {
-    return __awaiter(this, void 0, void 0, function* () {
-        const failedMap = data.fail_map;
-        const results = {
-            replacements: [],
-            missing: []
-        };
-        const replacementDictionary = {};
-        for (const key in failedMap) {
-            if (Object.prototype.hasOwnProperty.call(data.fail_map, key)) {
-                const element = data.fail_map[key];
-                // look up date in key.
-                let timestamp;
-                if (regex) {
-                    const matches = regex.exec(key);
-                    if (matches && matches.groups && matches.groups.year) {
-                        const groups = matches.groups;
-                        timestamp = groups.year;
-                        if (groups.month) {
-                            timestamp += groups.month;
-                        }
-                        if (groups.day) {
-                            timestamp += groups.day;
-                        }
+async function findWaybackUrls(data, regex) {
+    const failedMap = data.fail_map;
+    const results = {
+        replacements: [],
+        missing: []
+    };
+    const replacementDictionary = {};
+    for (const key in failedMap) {
+        if (Object.prototype.hasOwnProperty.call(data.fail_map, key)) {
+            const element = data.fail_map[key];
+            // look up date in key.
+            let timestamp;
+            if (regex) {
+                const matches = regex.exec(key);
+                if (matches && matches.groups && matches.groups.year) {
+                    const groups = matches.groups;
+                    timestamp = groups.year;
+                    if (groups.month) {
+                        timestamp += groups.month;
+                    }
+                    if (groups.day) {
+                        timestamp += groups.day;
                     }
                 }
-                for (const failedItem of element) {
-                    if (replacementDictionary.hasOwnProperty(failedItem.url)) {
-                        continue;
+            }
+            for (const failedItem of element) {
+                if (replacementDictionary.hasOwnProperty(failedItem.url)) {
+                    continue;
+                }
+                if (failedItem.status === 'Timeout') {
+                    const waybackUrl = new URL('https://archive.org/wayback/available');
+                    waybackUrl.searchParams.append('url', failedItem.url);
+                    if (timestamp) {
+                        waybackUrl.searchParams.append('timestamp', timestamp);
                     }
-                    if (failedItem.status === 'Timeout') {
-                        const waybackUrl = new URL('https://archive.org/wayback/available');
-                        waybackUrl.searchParams.append('url', failedItem.url);
-                        if (timestamp) {
-                            waybackUrl.searchParams.append('timestamp', timestamp);
+                    const waybackUrlString = waybackUrl.toString();
+                    core.info(waybackUrlString);
+                    const res = await axios_1.default.get(waybackUrlString);
+                    // Generate data for mocking
+                    // const hash = crypto.createHash('md5').update(waybackUrlString).digest('hex');
+                    // await fs.writeFile(`__tests__/wayback-${hash}.txt`, `mockData['${waybackUrlString}'] =\n${JSON.stringify(res.data)};`, 'utf-8');
+                    const waybackData = res.data;
+                    if (waybackData.archived_snapshots.closest) {
+                        if (!replacementDictionary.hasOwnProperty(waybackData.url)) {
+                            replacementDictionary[waybackData.url] =
+                                waybackData.archived_snapshots.closest.url;
                         }
-                        const waybackUrlString = waybackUrl.toString();
-                        core.info(waybackUrlString);
-                        const res = yield axios_1.default.get(waybackUrlString);
-                        // Generate data for mocking
-                        // const hash = crypto.createHash('md5').update(waybackUrlString).digest('hex');
-                        // await fs.writeFile(`__tests__/wayback-${hash}.txt`, `mockData['${waybackUrlString}'] =\n${JSON.stringify(res.data)};`, 'utf-8');
-                        const waybackData = res.data;
-                        if (waybackData.archived_snapshots.closest) {
-                            if (!replacementDictionary.hasOwnProperty(waybackData.url)) {
-                                replacementDictionary[waybackData.url] =
-                                    waybackData.archived_snapshots.closest.url;
-                            }
-                        }
-                        else {
-                            core.warning(`Failed to find snapshot for ${waybackData.url}`);
-                            results.missing.push(waybackData.url);
-                        }
+                    }
+                    else {
+                        core.warning(`Failed to find snapshot for ${waybackData.url}`);
+                        results.missing.push(waybackData.url);
                     }
                 }
             }
         }
-        const keys = Object.keys(replacementDictionary).sort((a, b) => b.localeCompare(a));
-        for (const k of keys) {
-            results.replacements.push({
-                find: k,
-                replace: replacementDictionary[k]
-            });
-        }
-        return results;
-    });
+    }
+    const keys = Object.keys(replacementDictionary).sort((a, b) => b.localeCompare(a));
+    for (const k of keys) {
+        results.replacements.push({
+            find: k,
+            replace: replacementDictionary[k]
+        });
+    }
+    return results;
 }
-exports.findWaybackUrls = findWaybackUrls;
 
 
 /***/ }),
@@ -150,15 +138,6 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -167,37 +146,35 @@ const core = __importStar(__nccwpck_require__(2186));
 const fs_1 = __nccwpck_require__(7147);
 const path_1 = __importDefault(__nccwpck_require__(1017));
 const findWaybackUrls_1 = __nccwpck_require__(1629);
-function run() {
-    return __awaiter(this, void 0, void 0, function* () {
-        try {
-            core.info('starting');
-            const inputFile = core.getInput('source-path', { required: true });
-            const outputFile = core.getInput('replacements-path');
-            const expr = core.getInput('timestamp-regex');
-            const regex = expr.length > 0 ? new RegExp(expr) : undefined;
-            core.info(`Reading from ${inputFile}`);
-            const data = yield fs_1.promises.readFile(inputFile, 'utf8');
-            if (!data) {
-                core.error('Unable to read from file');
-                return;
-            }
-            const parsed = (0, findWaybackUrls_1.parseData)(data);
-            const replacements = yield (0, findWaybackUrls_1.findWaybackUrls)(parsed, regex);
-            const replacementsString = JSON.stringify(replacements);
-            core.debug(replacementsString);
-            if (outputFile) {
-                core.info(`Writing to ${outputFile}`);
-                yield fs_1.promises.mkdir(path_1.default.dirname(outputFile));
-                yield fs_1.promises.writeFile(outputFile, replacementsString);
-            }
-            core.setOutput('missing', JSON.stringify(replacements.missing));
-            core.setOutput('replacements', JSON.stringify(replacements.replacements));
+async function run() {
+    try {
+        core.info('starting');
+        const inputFile = core.getInput('source-path', { required: true });
+        const outputFile = core.getInput('replacements-path');
+        const expr = core.getInput('timestamp-regex');
+        const regex = expr.length > 0 ? new RegExp(expr) : undefined;
+        core.info(`Reading from ${inputFile}`);
+        const data = await fs_1.promises.readFile(inputFile, 'utf8');
+        if (!data) {
+            core.error('Unable to read from file');
+            return;
         }
-        catch (error) {
-            if (error instanceof Error)
-                core.setFailed(error.message);
+        const parsed = (0, findWaybackUrls_1.parseData)(data);
+        const replacements = await (0, findWaybackUrls_1.findWaybackUrls)(parsed, regex);
+        const replacementsString = JSON.stringify(replacements);
+        core.debug(replacementsString);
+        if (outputFile) {
+            core.info(`Writing to ${outputFile}`);
+            await fs_1.promises.mkdir(path_1.default.dirname(outputFile));
+            await fs_1.promises.writeFile(outputFile, replacementsString);
         }
-    });
+        core.setOutput('missing', JSON.stringify(replacements.missing));
+        core.setOutput('replacements', JSON.stringify(replacements.replacements));
+    }
+    catch (error) {
+        if (error instanceof Error)
+            core.setFailed(error.message);
+    }
 }
 run();
 
