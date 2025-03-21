@@ -17,11 +17,7 @@ const compat = new FlatCompat({
 
 export default [{
     ignores: ["**/dist/", "**/lib/", "**/node_modules/", "**/jest.config.js"],
-}, ...compat.extends("plugin:github/recommended", "plugin:@typescript-eslint/recommended"), {
-    plugins: {
-        jest,
-        "@typescript-eslint": typescriptEslint,
-    },
+}, ...compat.extends("plugin:@typescript-eslint/recommended"), {
 
     languageOptions: {
         globals: {
