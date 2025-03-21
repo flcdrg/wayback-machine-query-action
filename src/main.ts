@@ -2,6 +2,7 @@ import * as core from '@actions/core';
 import { promises as fs } from 'fs';
 import path from 'path';
 import { findWaybackUrls, parseData } from './findWaybackUrls';
+import _ from 'lodash';
 
 async function run(): Promise<void> {
   try {
@@ -10,8 +11,9 @@ async function run(): Promise<void> {
     const outputFile: string = core.getInput('replacements-path');
 
     const expr = core.getInput('timestamp-regex');
+    const safeExpr = _.escapeRegExp(expr);
     const regex: RegExp | undefined =
-      expr.length > 0 ? new RegExp(expr) : undefined;
+      safeExpr.length > 0 ? new RegExp(safeExpr) : undefined;
 
     core.info(`Reading from ${inputFile}`);
     const data = await fs.readFile(inputFile, 'utf8');
