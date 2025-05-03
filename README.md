@@ -34,7 +34,7 @@ Adding [lycheeverse/lychee-action](https://github.com/lycheeverse/lychee-action)
 
 ```json
 {
-    "fail_map": {
+    "error_map": {
       "./_posts/2005/2005-03-30-server-and-domain-isolation-using.md": [
         {
           "url": "http://www.microsoft.com/windowsserver2003/technologies/networking/ipsec/default.mspx#EGAA",
@@ -82,3 +82,7 @@ Adding [lycheeverse/lychee-action](https://github.com/lycheeverse/lychee-action)
   ],
 }
 ```
+
+## Breaking changes
+
+Lychee 0.18.0 changed the JSON schema. `fail_map` was renamed to `error_map`. Version 4 of this action is updated to follow this change.

@@ -11,7 +11,7 @@ interface IUrlStatusDictionary {
 }
 
 export interface ILycheeData {
-  fail_map: IUrlStatusDictionary;
+  error_map: IUrlStatusDictionary;
 }
 
 export interface IWaybackData {
@@ -47,7 +47,7 @@ export async function findWaybackUrls(
   data: ILycheeData,
   regex?: RegExp
 ): Promise<IReplacements> {
-  const failedMap = data.fail_map;
+  const failedMap = data.error_map;
 
   const results: IReplacements = {
     replacements: [],
@@ -57,8 +57,8 @@ export async function findWaybackUrls(
   const replacementDictionary: { [index: string]: string } = {};
 
   for (const key in failedMap) {
-    if (Object.prototype.hasOwnProperty.call(data.fail_map, key)) {
-      const element = data.fail_map[key];
+    if (Object.prototype.hasOwnProperty.call(data.error_map, key)) {
+      const element = data.error_map[key];
 
       // look up date in key.
       let timestamp: string | undefined;

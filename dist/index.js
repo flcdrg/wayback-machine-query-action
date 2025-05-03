@@ -52,15 +52,15 @@ function parseData(data) {
     return parsed;
 }
 async function findWaybackUrls(data, regex) {
-    const failedMap = data.fail_map;
+    const failedMap = data.error_map;
     const results = {
         replacements: [],
         missing: []
     };
     const replacementDictionary = {};
     for (const key in failedMap) {
-        if (Object.prototype.hasOwnProperty.call(data.fail_map, key)) {
-            const element = data.fail_map[key];
+        if (Object.prototype.hasOwnProperty.call(data.error_map, key)) {
+            const element = data.error_map[key];
             // look up date in key.
             let timestamp;
             if (regex) {
