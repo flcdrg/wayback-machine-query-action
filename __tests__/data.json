@@ -1,5 +1,5 @@
 {
-    "fail_map": {
+    "error_map": {
       "./_posts/2005/2005-03-30-server-and-domain-isolation-using.md": [
         {
           "url": "http://www.microsoft.com/windowsserver2003/technologies/networking/ipsec/default.mspx#EGAA",
