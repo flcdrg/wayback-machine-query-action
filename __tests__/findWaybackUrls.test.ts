@@ -5,13 +5,10 @@ import {
 } from '../src/findWaybackUrls';
 import { expect, test } from '@jest/globals';
 import { promises as fs } from 'fs';
-import axios from 'axios';
 
 let data: ILycheeData;
 
-jest.mock('axios');
-const mockedAxios = axios as jest.Mocked<typeof axios>;
-
+// Setup mock data
 const mockData: { [id: string]: IWaybackData } = {};
 mockData[
   'https://archive.org/wayback/available?url=http%3A%2F%2Fwww.microsoft.com%2Fresources%2Fdocumentation%2Fwindowsnt%2F4%2Fserver%2Freskit%2Fen-us%2Freskt4u4%2Frku4list.mspx%3Fmfr%3Dtrue&timestamp=20090330'
@@ -169,11 +166,19 @@ mockData[
   archived_snapshots: {}
 };
 
-mockedAxios.get.mockImplementation(url => {
+// Mock the global fetch function
+global.fetch = jest.fn((input: string | URL | Request): Promise<Response> => {
+  const url = typeof input === 'string' ? input : input.toString();
   if (mockData.hasOwnProperty(url)) {
-    return Promise.resolve({ data: mockData[url] });
+    return Promise.resolve({
+      ok: true,
+      json: () => Promise.resolve(mockData[url])
+    } as Response);
   } else {
-    return Promise.reject(new Error(`Unknown url: ${url}`));
+    return Promise.resolve({
+      ok: false,
+      statusText: `Unknown url: ${url}`
+    } as Response);
   }
 });
 

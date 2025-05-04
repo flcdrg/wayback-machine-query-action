@@ -3,6 +3,7 @@
 exports[`finds urls 1`] = `
 {
   "missing": [
+    "http://technet.microsoft.com/en-us/library/cc753182.aspx",
     "http://www.sqlsnapshots.com/SQLSnapshotsMP3Feed.xml",
   ],
   "replacements": [
@@ -33,6 +34,7 @@ exports[`finds urls 1`] = `
 exports[`finds urls with timestamp 1`] = `
 {
   "missing": [
+    "http://technet.microsoft.com/en-us/library/cc753182.aspx",
     "http://www.sqlserver.org.au/",
     "http://www.sqlsnapshots.com/SQLSnapshotsMP3Feed.xml",
   ],

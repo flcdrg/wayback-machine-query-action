@@ -1,13 +1,17 @@
-import axios from 'axios';
 import * as core from '@actions/core';
 // import crypto from 'crypto';
 // import { promises as fs } from 'fs';
 
+type IUrlStatus = {
+  url: string;
+  status: {
+    text: string;
+    code: number;
+  };
+};
+
 interface IUrlStatusDictionary {
-  [index: string]: {
-    url: string;
-    status: string;
-  }[];
+  [index: string]: IUrlStatus[];
 }
 
 export interface ILycheeData {
@@ -85,35 +89,40 @@ export async function findWaybackUrls(
           continue;
         }
 
-        if (failedItem.status === 'Timeout') {
-          const waybackUrl = new URL('https://archive.org/wayback/available');
+        const waybackUrl = new URL('https://archive.org/wayback/available');
 
-          waybackUrl.searchParams.append('url', failedItem.url);
+        waybackUrl.searchParams.append('url', failedItem.url);
 
-          if (timestamp) {
-            waybackUrl.searchParams.append('timestamp', timestamp);
+        if (timestamp) {
+          waybackUrl.searchParams.append('timestamp', timestamp);
+        }
+
+        const waybackUrlString = waybackUrl.toString();
+        core.info(waybackUrlString);
+
+        const response = await fetch(waybackUrlString);
+
+        if (!response.ok) {
+          core.warning(
+            `Failed to get wayback url for ${failedItem.url}: ${response.statusText}`
+          );
+          results.missing.push(failedItem.url);
+          continue;
+        }
+        const waybackData: IWaybackData = await response.json();
+
+        // Generate data for mocking
+        // const hash = crypto.createHash('md5').update(waybackUrlString).digest('hex');
+        // await fs.writeFile(`__tests__/wayback-${hash}.txt`, `mockData['${waybackUrlString}'] =\n${JSON.stringify(res.data)};`, 'utf-8');
+
+        if (waybackData.archived_snapshots.closest) {
+          if (!replacementDictionary.hasOwnProperty(waybackData.url)) {
+            replacementDictionary[waybackData.url] =
+              waybackData.archived_snapshots.closest.url;
           }
-
-          const waybackUrlString = waybackUrl.toString();
-          core.info(waybackUrlString);
-
-          const res = await axios.get(waybackUrlString);
-
-          // Generate data for mocking
-          // const hash = crypto.createHash('md5').update(waybackUrlString).digest('hex');
-          // await fs.writeFile(`__tests__/wayback-${hash}.txt`, `mockData['${waybackUrlString}'] =\n${JSON.stringify(res.data)};`, 'utf-8');
-
-          const waybackData: IWaybackData = res.data;
-
-          if (waybackData.archived_snapshots.closest) {
-            if (!replacementDictionary.hasOwnProperty(waybackData.url)) {
-              replacementDictionary[waybackData.url] =
-                waybackData.archived_snapshots.closest.url;
-            }
-          } else {
-            core.warning(`Failed to find snapshot for ${waybackData.url}`);
-            results.missing.push(waybackData.url);
-          }
+        } else {
+          core.warning(`Failed to find snapshot for ${waybackData.url}`);
+          results.missing.push(waybackData.url);
         }
       }
     }

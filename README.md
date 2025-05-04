@@ -34,29 +34,34 @@ Adding [lycheeverse/lychee-action](https://github.com/lycheeverse/lychee-action)
 
 ```json
 {
-    "error_map": {
-      "./_posts/2005/2005-03-30-server-and-domain-isolation-using.md": [
-        {
-          "url": "http://www.microsoft.com/windowsserver2003/technologies/networking/ipsec/default.mspx#EGAA",
-          "status": "Timeout"
+  "error_map": {
+    "dist/2006/12/mbunit-23-rtm.html": [
+      {
+        "url": "http://weblogs.asp.net/astopford/archive/2006/12/07/mbunit-2-3-rtm.aspx",
+        "status": {
+          "text": "Network error",
+          "code": 404
         }
-      ],
-      "./_posts/2009/2009-03-30-sas-and-typeperf.md": [
-        {
-          "url": "http://technet.microsoft.com/en-us/library/cc753182.aspx",
-          "status": "Failed: Network error"
-        },
-        {
-          "url": "http://www.sqlserver.org.au/",
-          "status": "Timeout"
-        },
-        {
-          "url": "http://www.microsoft.com/resources/documentation/windowsnt/4/server/reskit/en-us/reskt4u4/rku4list.mspx?mfr=true",
-          "status": "Timeout"
+      }
+    ],
+    "dist/2005/09/dr-neil-touring-australia.html": [
+      {
+        "url": "http://blogs.msdn.com/charles_sterling/archive/2005/09/22/472684.aspx",
+        "status": {
+          "text": "Network error",
+          "code": 404
         }
-      ]
-    }
+      },
+      {
+        "url": "http://www.dotnetsolutions.com.au/xp.aspx",
+        "status": {
+          "text": "Network error",
+          "code": 404
+        }
+      }
+    ]
   }
+}
 ```
 
 ### Sample output file
