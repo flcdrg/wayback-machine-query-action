@@ -6,15 +6,15 @@ exports[`handle single and multiple array values 1`] = `
   "replacements": [
     {
       "find": "http://www.soundgraph.com/Eng_/Supports/DownloadList.aspx?topMenu=4&subMenu=1&leftMenu=1",
-      "replace": "http://web.archive.org/web/20080815035541/http://www.soundgraph.com/Eng_/Supports/DownloadList.aspx?topMenu=4&subMenu=1&leftMenu=1",
+      "replace": "https://web.archive.org/web/20080815035541/http://www.soundgraph.com/Eng_/Supports/DownloadList.aspx?topMenu=4&subMenu=1&leftMenu=1",
     },
     {
       "find": "http://www.newmagic.com.au/Support/Hauppauge_Vista_Drivers.html",
-      "replace": "http://web.archive.org/web/20080601094507/http://www.newmagic.com.au/Support/Hauppauge_Vista_Drivers.html",
+      "replace": "https://web.archive.org/web/20080601094507/http://www.newmagic.com.au/Support/Hauppauge_Vista_Drivers.html",
     },
     {
       "find": "http://www.jetbrains.net/confluence/display/ReSharper/ReSharper+4.5+Nightly+Builds",
-      "replace": "http://web.archive.org/web/20090401043902/http://www.jetbrains.net/confluence/display/ReSharper/ReSharper+4.5+Nightly+Builds",
+      "replace": "https://web.archive.org/web/20090401043902/http://www.jetbrains.net/confluence/display/ReSharper/ReSharper+4.5+Nightly+Builds",
     },
   ],
 }

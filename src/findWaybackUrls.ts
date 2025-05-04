@@ -117,8 +117,12 @@ export async function findWaybackUrls(
 
         if (waybackData.archived_snapshots.closest) {
           if (!replacementDictionary.hasOwnProperty(waybackData.url)) {
-            replacementDictionary[waybackData.url] =
-              waybackData.archived_snapshots.closest.url;
+            // Ensure the URL is HTTPS
+            const closestUrl = new URL(
+              waybackData.archived_snapshots.closest.url
+            );
+            closestUrl.protocol = 'https:';
+            replacementDictionary[waybackData.url] = closestUrl.toString();
           }
         } else {
           core.warning(`Failed to find snapshot for ${waybackData.url}`);
