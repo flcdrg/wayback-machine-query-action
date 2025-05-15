@@ -47,7 +47,7 @@
     "js-yaml": "^4.1.0",
     "nerdbank-gitversioning": "^3.7.115",
     "prettier": "^3.5.3",
-    "ts-jest": "^29.3.2",
+    "ts-jest": "^29.3.3",
     "typescript": "^5.8.3"
   },
   "engines": {
