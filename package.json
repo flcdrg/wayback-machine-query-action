@@ -30,7 +30,7 @@
     "lodash": "^4.17.21"
   },
   "devDependencies": {
-    "@eslint/eslintrc": "^3.3.1",
+    "@eslint/eslintrc": "^3.3.3",
     "@eslint/js": "^9.39.0",
     "@types/jest": "^30.0.0",
     "@types/lodash": "^4.17.21",
