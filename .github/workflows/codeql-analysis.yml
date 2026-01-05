@@ -40,10 +40,10 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Set Node.js 20.x
+      - name: Set Node.js 24.x
         uses: actions/setup-node@v4.1.0
         with:
-          node-version: 20.x
+          node-version: 24.x
 
       # Initializes the CodeQL tools for scanning.
       - name: Initialize CodeQL
