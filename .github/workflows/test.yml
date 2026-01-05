@@ -13,7 +13,7 @@ jobs:
     outputs:
       NBGV_SemVer2: ${{ steps.gitversion.outputs.NBGV_SemVer2 }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           fetch-depth: 0 # full history for GitVersioning
 
@@ -37,7 +37,7 @@ jobs:
   test: # make sure the action works on a clean machine without building
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: ./
         id: wayback
         with:
@@ -53,7 +53,7 @@ jobs:
 
     if: github.ref == 'refs/heads/main' # Running this job only for master branch
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - uses: release-drafter/release-drafter@v6
         id: create_release
