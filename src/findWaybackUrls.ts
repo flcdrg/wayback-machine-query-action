@@ -85,7 +85,12 @@ export async function findWaybackUrls(
       }
 
       for (const failedItem of element) {
-        if (replacementDictionary.hasOwnProperty(failedItem.url)) {
+        if (
+          Object.prototype.hasOwnProperty.call(
+            replacementDictionary,
+            failedItem.url
+          )
+        ) {
           continue;
         }
 
@@ -109,14 +114,20 @@ export async function findWaybackUrls(
           results.missing.push(failedItem.url);
           continue;
         }
-        const waybackData: IWaybackData = await response.json();
+        const waybackData: IWaybackData =
+          (await response.json()) as IWaybackData;
 
         // Generate data for mocking
         // const hash = crypto.createHash('md5').update(waybackUrlString).digest('hex');
         // await fs.writeFile(`__tests__/wayback-${hash}.txt`, `mockData['${waybackUrlString}'] =\n${JSON.stringify(res.data)};`, 'utf-8');
 
         if (waybackData.archived_snapshots.closest) {
-          if (!replacementDictionary.hasOwnProperty(waybackData.url)) {
+          if (
+            !Object.prototype.hasOwnProperty.call(
+              replacementDictionary,
+              waybackData.url
+            )
+          ) {
             // Ensure the URL is HTTPS
             const closestUrl = new URL(
               waybackData.archived_snapshots.closest.url
