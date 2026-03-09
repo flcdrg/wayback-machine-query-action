@@ -19,6 +19,10 @@ export default {
   // },
   extensionsToTreatAsEsm: ['.ts'],
   moduleFileExtensions: ['ts', 'js'],
+  // @actions/core@3 is ESM-only; map it to a local mock for Jest tests.
+  moduleNameMapper: {
+    '^@actions/core$': '<rootDir>/__tests__/mocks/actionsCoreMock.ts'
+  },
   preset: 'ts-jest',
   reporters: ['default'],
   resolver: 'ts-jest-resolver',
