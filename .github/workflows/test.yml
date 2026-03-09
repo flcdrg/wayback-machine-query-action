@@ -23,8 +23,8 @@ jobs:
           node-version: 24.x
 
       - run: |
-          npm ci
-          npx nbgv cloud --all-vars
+          pnpm install --frozen-lockfile
+          pnpm nbgv cloud --all-vars
 
       - name: gitversion
         id: gitversion
@@ -33,7 +33,7 @@ jobs:
           echo "NBGV_SemVer2=$NBGV_SemVer2" >> $GITHUB_OUTPUT
 
       - run: |
-          npm run all
+          pnpm run all
   test: # make sure the action works on a clean machine without building
     runs-on: ubuntu-latest
     steps:

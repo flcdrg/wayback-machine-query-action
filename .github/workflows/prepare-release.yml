@@ -14,9 +14,9 @@ jobs:
           node-version: 24.x
 
       - run: |
-          npm install
+          pnpm install --frozen-lockfile
       - run: |
-          npm run all
+          pnpm run all
 
       - name: Create Pull Request
         # if: ${{ github.ref == 'refs/heads/main' }}
