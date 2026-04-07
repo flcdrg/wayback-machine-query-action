@@ -10,7 +10,7 @@
     "format-check": "prettier --check **/*.ts",
     "lint": "eslint src/**/*.ts --fix",
     "lint-check": "eslint src/**/*.ts",
-    "package": "pnpx rimraf ./dist && pnpm rollup --config rollup.config.ts --configPlugin @rollup/plugin-typescript",
+    "package": "pnpm dlx rimraf ./dist && pnpm rollup --config rollup.config.ts --configPlugin @rollup/plugin-typescript",
     "test": "jest",
     "all": "pnpm run build && pnpm run format && pnpm run lint && pnpm run package && pnpm run test"
   },
