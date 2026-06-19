@@ -22,8 +22,12 @@ jobs:
         if: ${{
           steps.metadata.outputs.update-type == 'version-update:semver-patch' ||
           steps.metadata.outputs.update-type == 'version-update:semver-minor' ||
+          contains(steps.metadata.outputs.dependency-names, 'actions/checkout') ||
           contains(steps.metadata.outputs.dependency-names, 'actions/upload-artifact') ||
-          contains(steps.metadata.outputs.dependency-names, 'actions/download-artifact')
+          contains(steps.metadata.outputs.dependency-names, 'actions/download-artifact') ||
+          contains(steps.metadata.outputs.dependency-names, 'actions/setup-node') ||
+          contains(steps.metadata.outputs.dependency-names, 'pnpm/action-setup') ||
+          contains(steps.metadata.outputs.dependency-names, 'release-drafter/release-drafter')
           }}
         run: gh pr merge --auto --merge "$PR_URL"
         env:
