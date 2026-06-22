@@ -52,7 +52,7 @@
     "js-yaml": "^4.2.0",
     "nerdbank-gitversioning": "^3.10.85",
     "prettier": "^3.8.4",
-    "rollup": "^4.62.0",
+    "rollup": "^4.62.2",
     "ts-jest": "^29.4.11",
     "ts-jest-resolver": "^2.0.1",
     "typescript": "^6.0.3"
