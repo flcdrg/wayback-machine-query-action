@@ -50,7 +50,7 @@
     "globals": "^17.11.0",
     "jest": "^30.4.2",
     "js-yaml": "^5.4.1",
-    "nerdbank-gitversioning": "^3.10.91",
+    "nerdbank-gitversioning": "^3.10.94",
     "prettier": "^3.9.6",
     "rollup": "^4.62.5",
     "ts-jest": "^29.4.12",
