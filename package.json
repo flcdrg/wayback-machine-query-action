@@ -51,7 +51,7 @@
     "jest": "^30.5.1",
     "js-yaml": "^5.4.2",
     "nerdbank-gitversioning": "^3.10.94",
-    "prettier": "^3.9.6",
+    "prettier": "^3.9.8",
     "rollup": "^4.62.5",
     "ts-jest": "^29.4.12",
     "ts-jest-resolver": "^2.0.1",
