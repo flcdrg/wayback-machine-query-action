@@ -36,7 +36,7 @@
     "@jest/globals": "^30.5.2",
     "@rollup/plugin-commonjs": "^29.0.3",
     "@rollup/plugin-node-resolve": "^16.0.3",
-    "@rollup/plugin-typescript": "^12.3.0",
+    "@rollup/plugin-typescript": "^12.3.1",
     "@types/jest": "^30.0.0",
     "@types/lodash": "^4.17.26",
     "@types/node": "^24.13.6",
